@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  backend: 
+    image: golang:1.12
+    volumes:
+    - ./backend:/go/src/app
+    working_dir: /go/src/app
+    command: bash -c "go mod vendor && go run main.go"
+    environment:
+      CRAWLAB_SERVER_MASTER: "Y"  
+      CRAWLAB_MONGO_HOST: "mongo" 
+      CRAWLAB_REDIS_ADDRESS: "redis"  
+      GO111MODULE: "on"
+      GOPROXY: "https://goproxy.cn"
+    ports:    
+      - "8000:8000"
+    depends_on:
+      - mongo
+      - redis
+  frontend:
+    image: node:8.16.2
+    volumes:
+    - ./frontend:/app
+    working_dir: /app
+    command: bash -c "npm install -g yarn && yarn install && npm run serve"
+    ports:    
+    - "8080:8080"
+  mongo:
+    image: mongo:latest
+    restart: always
+  redis:
+    image: redis:latest
+    restart: always

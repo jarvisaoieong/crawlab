@@ -180,7 +180,7 @@ const actions = {
   },
   deleteTaskMultiple ({ state }, ids) {
     return request.delete(`/tasks`, {
-      ids: ids
+      ids:ids
     })
   },
   restartTask ({ state, dispatch }, id) {
@@ -188,6 +188,12 @@ const actions = {
       .then(() => {
         dispatch('getTaskList')
       })
+  },
+  restartTaskMultiple({state},ids){
+    for (const id of ids) {
+      request.post(`/tasks/${id}/restart`)
+    }
+
   },
   getTaskLog ({ state, commit }, { id, keyword }) {
     return request.get(`/tasks/${id}/log`, {
