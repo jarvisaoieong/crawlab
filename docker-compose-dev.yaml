@@ -5,11 +5,13 @@ services:
     volumes:
     - ./backend:/go/src/app
     working_dir: /go/src/app
-    command: bash -c "go mod vendor && go run main.go"
+    # command: bash -c "go mod vendor && go run main.go"
+    command: sh docker-dev.sh
     environment:
       CRAWLAB_SERVER_MASTER: "Y"  
       CRAWLAB_MONGO_HOST: "mongo" 
       CRAWLAB_REDIS_ADDRESS: "redis"  
+      CRAWLAB_SERVER_LANG_NODE: "Y"
       GO111MODULE: "on"
       GOPROXY: "https://goproxy.cn"
     ports:    
